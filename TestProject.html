@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Computer Web Shop</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+      }
+
+      /* Updated container to use full screen height */
+      .container {
+        width: 100%;
+        height: 100vh;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        text-align: center;
+        flex-shrink: 0;
+      }
+
+      header h1 {
+        font-size: 2.5em;
+        margin-bottom: 5px;
+      }
+
+      header p {
+        font-size: 0.95em;
+      }
+
+      /* Updated main-content to fill remaining space */
+      .main-content {
+        display: grid;
+        grid-template-columns: 280px 1fr 350px;
+        gap: 20px;
+        padding: 30px;
+        flex: 1;
+        overflow: hidden;
+      }
+
+      .left-section,
+      .right-section {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        overflow-y: auto;
+      }
+
+      /* Updated gallery to display 4 columns of square products */
+      .image-gallery {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        overflow-y: auto;
+        flex: 1;
+        padding-right: 10px;
+      }
+
+      .image-gallery::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .image-gallery::-webkit-scrollbar-track {
+        background: #e0e0e0;
+        border-radius: 10px;
+      }
+
+      .image-gallery::-webkit-scrollbar-thumb {
+        background: #667eea;
+        border-radius: 10px;
+      }
+
+      /* Made product items square with equal width and height */
+      .product-item {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 3px solid transparent;
+        display: flex;
+        flex-direction: column;
+        aspect-ratio: 1 / 1;
+      }
+
+      .product-item:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        border-color: #667eea;
+      }
+
+      .product-item.selected {
+        border-color: #667eea;
+        background: #f0f4ff;
+      }
+
+      /* Made product image fill the square while maintaining aspect ratio */
+      .product-image {
+        width: 100%;
+        flex: 1;
+        object-fit: cover;
+        background: #e0e0e0;
+      }
+
+      .product-info {
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .product-name {
+        font-size: 0.85em;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 5px;
+        text-align: center;
+        line-height: 1.2;
+      }
+
+      .product-price {
+        font-size: 1em;
+        font-weight: bold;
+        color: #667eea;
+        text-align: center;
+      }
+
+      .no-images {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 300px;
+        color: #999;
+        font-size: 1.1em;
+      }
+
+      .section-title {
+        font-size: 1.1em;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      select,
+      input[type="number"],
+      input[type="text"] {
+        width: 100%;
+        padding: 10px 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 0.95em;
+        transition: border-color 0.3s;
+      }
+
+      select:focus,
+      input[type="number"]:focus,
+      input[type="text"]:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      .quantity-input-group {
+        display: flex;
+        gap: 10px;
+      }
+
+      .quantity-input-group input {
+        flex: 0.4;
+      }
+
+      .quantity-input-group button {
+        flex: 0.6;
+      }
+
+      button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-size: 0.95em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      .cart-item {
+        background: white;
+        padding: 12px;
+        border-radius: 8px;
+        border-left: 4px solid #667eea;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9em;
+      }
+
+      .cart-item-details {
+        flex: 1;
+      }
+
+      .cart-item-name {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 3px;
+      }
+
+      .cart-item-price {
+        color: #667eea;
+        font-weight: 600;
+      }
+
+      .cart-item-qty {
+        color: #999;
+        font-size: 0.85em;
+      }
+
+      .remove-btn {
+        background: #ff6b6b;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.8em;
+        transition: background 0.3s;
+      }
+
+      .remove-btn:hover {
+        background: #ff5252;
+      }
+
+      .discount-section {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        border: 2px solid #e0e0e0;
+      }
+
+      .discount-type-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+
+      .discount-type-buttons button {
+        padding: 8px;
+        font-size: 0.9em;
+        background: #e0e0e0;
+        color: #666;
+      }
+
+      .discount-type-buttons button.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .discount-input-group {
+        display: flex;
+        gap: 10px;
+      }
+
+      .discount-input-group input {
+        flex: 1;
+      }
+
+      .discount-input-group button {
+        flex: 0.8;
+      }
+
+      .totals {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        border: 2px solid #e0e0e0;
+      }
+
+      .total-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        font-size: 0.95em;
+        color: #666;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      .total-row:last-child {
+        border-bottom: none;
+      }
+
+      .final-total {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 12px;
+        border-radius: 6px;
+        margin-top: 10px;
+      }
+
+      .final-total .total-row {
+        color: white;
+        border-bottom: none;
+        font-size: 1.1em;
+        font-weight: bold;
+      }
+
+      .purchase-btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 1em;
+        font-weight: 700;
+        margin-top: 10px;
+      }
+
+      /* Add to your existing CSS, no need to change anything else */
+      .image-section {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        overflow: hidden; /* allow inner gallery to scroll */
+      }
+
+      .image-gallery {
+        flex: 1; /* take all available height in image-section */
+        overflow-y: auto;
+      }
+
+      /* Optional: scrollbar styling */
+      .image-gallery::-webkit-scrollbar {
+        width: 8px;
+      }
+      .image-gallery::-webkit-scrollbar-track {
+        background: #e0e0e0;
+        border-radius: 10px;
+      }
+      .image-gallery::-webkit-scrollbar-thumb {
+        background: #667eea;
+        border-radius: 10px;
+      }
+
+      /* Responsive: Tablet */
+      @media (max-width: 1200px) {
+        .main-content {
+          grid-template-columns: 250px 1fr 300px;
+          gap: 15px;
+          padding: 20px;
+        }
+
+        .image-gallery {
+          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        }
+      }
+
+      /* Responsive: Large Tablet */
+      @media (max-width: 1024px) {
+        .main-content {
+          grid-template-columns: 1fr;
+          gap: 15px;
+          padding: 15px;
+        }
+
+        .left-section,
+        .right-section,
+        .image-section {
+          min-height: 0;
+        }
+
+        .image-section {
+          order: -1;
+        }
+
+        .image-gallery {
+          grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+          max-height: 350px;
+        }
+      }
+
+      /* Responsive: Medium Tablet */
+      @media (max-width: 768px) {
+        header h1 {
+          font-size: 1.8em;
+        }
+
+        header p {
+          font-size: 0.9em;
+        }
+
+        .main-content {
+          grid-template-columns: 1fr;
+          gap: 12px;
+          padding: 12px;
+        }
+
+        .image-gallery {
+          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+          max-height: 300px;
+          gap: 12px;
+        }
+
+        .product-image {
+          height: 130px;
+        }
+
+        .product-info {
+          padding: 10px;
+        }
+
+        .section-title {
+          font-size: 1em;
+        }
+      }
+
+      /* Responsive: Small Phone */
+      @media (max-width: 480px) {
+        .container {
+          height: 100%;
+          min-height: 100vh;
+        }
+
+        header h1 {
+          font-size: 1.5em;
+          margin-bottom: 3px;
+        }
+
+        header p {
+          font-size: 0.8em;
+        }
+
+        .main-content {
+          grid-template-columns: 1fr;
+          gap: 10px;
+          padding: 10px;
+        }
+
+        .left-section,
+        .right-section,
+        .image-section {
+          padding: 12px;
+        }
+
+        .image-gallery {
+          grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+          max-height: 280px;
+          gap: 10px;
+        }
+
+        .product-image {
+          height: 110px;
+        }
+
+        .product-info {
+          padding: 8px;
+        }
+
+        .product-name {
+          font-size: 0.8em;
+        }
+
+        .product-price {
+          font-size: 0.95em;
+        }
+
+        .section-title {
+          font-size: 0.95em;
+        }
+
+        .cart-item {
+          font-size: 0.85em;
+          padding: 10px;
+        }
+
+        .remove-btn {
+          padding: 4px 8px;
+          font-size: 0.7em;
+        }
+
+        select,
+        input[type="number"],
+        input[type="text"] {
+          font-size: 0.9em;
+          padding: 8px;
+        }
+
+        button {
+          font-size: 0.9em;
+          padding: 8px 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>💻 Computer Web Shop</h1>
+        <p>Premium Laptops from Top Brands</p>
+      </header>
+
+      <div class="main-content">
+        <!-- Left: Selection -->
+        <div class="left-section">
+          <div>
+            <div class="section-title">Select Brand</div>
+            <select id="brandSelect" onchange="updateModels()">
+              <option value="">-- Choose a Brand --</option>
+              <option value="ASUS">ASUS</option>
+              <option value="Lenovo">Lenovo</option>
+              <option value="MSI">MSI</option>
+              <option value="Dell">Dell</option>
+              <option value="HP">HP</option>
+              <option value="Apple">Apple</option>
+            </select>
+          </div>
+
+          <div>
+            <div class="section-title">Select Model</div>
+            <select id="modelSelect">
+              <option value="">-- Choose a Model --</option>
+            </select>
+          </div>
+
+          <div>
+            <div class="section-title">Quantity</div>
+            <div class="quantity-input-group">
+              <input
+                type="number"
+                id="quantityInput"
+                value="1"
+                min="1"
+                max="10"
+              />
+              <button onclick="addToCart()">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Center: Product Images -->
+        <div class="image-section">
+          <div class="section-title">Product Gallery</div>
+          <div class="image-gallery" id="imageGallery">
+            <div class="no-images">Select a brand to see products</div>
+          </div>
+        </div>
+
+        <!-- Right: Shopping Cart -->
+        <div class="right-section">
+          <div class="section-title">Shopping Cart</div>
+          <div
+            id="cartItems"
+            style="
+              flex: 1;
+              overflow-y: auto;
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+            "
+          >
+            <p style="color: #999; text-align: center">Cart is empty</p>
+          </div>
+
+          <div class="discount-section">
+            <div class="section-title" style="margin: 0">Apply Discount</div>
+            <div class="discount-type-buttons">
+              <button class="active" onclick="setDiscountType('percentage')">
+                %
+              </button>
+              <button onclick="setDiscountType('fixed')">$</button>
+            </div>
+            <div class="discount-input-group">
+              <input
+                type="number"
+                id="discountInput"
+                placeholder="Enter amount"
+              />
+              <button onclick="applyDiscount()">Apply</button>
+            </div>
+          </div>
+
+          <div class="totals">
+            <div class="total-row">
+              <span>Subtotal:</span>
+              <span id="subtotal">$0.00</span>
+            </div>
+            <div class="total-row">
+              <span>Discount:</span>
+              <span id="discountDisplay">$0.00</span>
+            </div>
+            <div class="final-total">
+              <div
+                class="total-row"
+                style="
+                  font-weight: normal;
+                  font-size: 0.9em;
+                  margin-bottom: 5px;
+                "
+              >
+                <span>Final Total:</span>
+                <span id="finalTotal">$0.00</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="purchase-btn" onclick="confirmPurchase()">
+            Confirm Purchase
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Product data with images and prices
+      const products = {
+        ASUS: {
+          models: [
+            {
+              name: "VivoBook 15",
+              price: 599,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "VivoBook Pro 16",
+              price: 849,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Chromebook 14",
+              price: 349,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "ExpertBook B1",
+              price: 699,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "TUF Gaming F15",
+              price: 999,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "TUF Gaming A16",
+              price: 1199,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "ROG Zephyrus G14",
+              price: 1499,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "ROG Gaming 17",
+              price: 1799,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "ZenBook 14",
+              price: 799,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "ZenBook Pro",
+              price: 1899,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "StudioBook 16",
+              price: 2199,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "ProArt Display PA147CDV",
+              price: 649,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+          ],
+        },
+        Lenovo: {
+          models: [
+            {
+              name: "IdeaPad 1",
+              price: 299,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "IdeaPad 5",
+              price: 549,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "IdeaPad Pro",
+              price: 899,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "ThinkPad E15",
+              price: 749,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "ThinkPad X1 Carbon",
+              price: 1299,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "ThinkPad X1 Extreme",
+              price: 1799,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Legion 5",
+              price: 899,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Legion 7 Pro",
+              price: 1599,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Yoga 9i",
+              price: 1199,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Yoga C940",
+              price: 1499,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "ThinkBook 15",
+              price: 649,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Chromebook Flex 5",
+              price: 399,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+          ],
+        },
+        MSI: {
+          models: [
+            {
+              name: "Modern 14",
+              price: 649,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Modern 15",
+              price: 749,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Modern 17",
+              price: 899,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Prestige 14",
+              price: 1299,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "GE66 Raider",
+              price: 1699,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "GE76 Raider",
+              price: 1899,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "GS66 Stealth",
+              price: 1599,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Stealth 15M",
+              price: 1499,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Pulse GL66",
+              price: 999,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Pulse 15",
+              price: 899,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Creator Z16",
+              price: 2099,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Alpha 17",
+              price: 1799,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+          ],
+        },
+        Dell: {
+          models: [
+            {
+              name: "Inspiron 14",
+              price: 399,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Inspiron 15",
+              price: 499,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Inspiron 16",
+              price: 599,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "XPS 13",
+              price: 999,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "XPS 15",
+              price: 1399,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "XPS 17",
+              price: 1799,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Latitude 3000",
+              price: 649,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Latitude 5000",
+              price: 799,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Alienware m15",
+              price: 1799,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Alienware m17",
+              price: 1999,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "G15 Gaming",
+              price: 1299,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Vostro 15",
+              price: 549,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+          ],
+        },
+        HP: {
+          models: [
+            {
+              name: "Pavilion 14",
+              price: 429,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Pavilion 15",
+              price: 529,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Pavilion 17",
+              price: 629,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Envy 13",
+              price: 799,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Envy 15",
+              price: 999,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Envy x360",
+              price: 1099,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "ProBook 450",
+              price: 749,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "ProBook 650",
+              price: 899,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Omen 15",
+              price: 1299,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Omen 17",
+              price: 1599,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Elite Dragonfly",
+              price: 1499,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: "Chromebook 14",
+              price: 349,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+          ],
+        },
+        Apple: {
+          models: [
+            {
+              name: 'MacBook Air M2 13"',
+              price: 1199,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: 'MacBook Air M3 13"',
+              price: 1299,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: 'MacBook Air M3 15"',
+              price: 1499,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: 'MacBook Air M4 13"',
+              price: 1399,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: 'MacBook Air M4 15"',
+              price: 1599,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: 'MacBook Pro 14" M3',
+              price: 1999,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: 'MacBook Pro 14" M3 Pro',
+              price: 2199,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: 'MacBook Pro 14" M4 Pro',
+              price: 2299,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: 'MacBook Pro 16" M3 Pro',
+              price: 2499,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: 'MacBook Pro 16" M4 Pro',
+              price: 2599,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: 'MacBook Pro 16" M4 Max',
+              price: 3499,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+            {
+              name: 'MacBook Pro 14" M4 Max',
+              price: 3299,
+              image: "/placeholder.svg?height=150&width=200",
+            },
+          ],
+        },
+      };
+
+      let cart = [];
+      let discountType = "percentage";
+      let discountAmount = 0;
+
+      function updateModels() {
+        const brand = document.getElementById("brandSelect").value;
+        const modelSelect = document.getElementById("modelSelect");
+        const imageGallery = document.getElementById("imageGallery");
+
+        modelSelect.innerHTML =
+          '<option value="">-- Choose a Model --</option>';
+        imageGallery.innerHTML = "";
+
+        if (brand && products[brand]) {
+          const models = products[brand].models;
+          models.forEach((model, index) => {
+            const option = document.createElement("option");
+            option.value = index;
+            option.textContent = `${model.name} - $${model.price}`;
+            modelSelect.appendChild(option);
+
+            // Add image to gallery
+            const imageItem = document.createElement("div");
+            imageItem.className = "product-item";
+            imageItem.onclick = () => {
+              document.getElementById("modelSelect").value = index;
+
+              // Add item to cart with current quantity input
+              const quantity =
+                parseInt(document.getElementById("quantityInput").value) || 1;
+              const item = {
+                brand,
+                name: model.name,
+                price: model.price,
+                quantity,
+                id: `${brand}-${index}`,
+              };
+
+              const existingItem = cart.find((c) => c.id === item.id);
+              if (existingItem) {
+                existingItem.quantity += quantity;
+              } else {
+                cart.push(item);
+              }
+
+              document.getElementById("quantityInput").value = 1; // reset input
+              updateCart();
+              showNotification(`${model.name} added to cart!`);
+            };
+            imageItem.innerHTML = `
+                        <div class="product-image" style="background-image: url('${model.image}');"></div>
+                        <div class="product-info">
+                            <div class="product-name">${model.name}</div>
+                            <div class="product-price">$${model.price}</div>
+                        </div>
+                    `;
+            imageGallery.appendChild(imageItem);
+          });
+        } else {
+          imageGallery.innerHTML =
+            '<div class="no-images">Select a brand to see products</div>';
+        }
+      }
+
+      function addToCart() {
+        const brand = document.getElementById("brandSelect").value;
+        const modelIndex = document.getElementById("modelSelect").value;
+        const quantity = parseInt(
+          document.getElementById("quantityInput").value
+        );
+
+        if (!brand || modelIndex === "") {
+          showNotification("Please select a brand and model");
+          return;
+        }
+
+        const model = products[brand].models[modelIndex];
+        const item = {
+          brand,
+          name: model.name,
+          price: model.price,
+          quantity,
+          id: `${brand}-${modelIndex}`,
+        };
+
+        const existingItem = cart.find((c) => c.id === item.id);
+        if (existingItem) {
+          existingItem.quantity += quantity;
+        } else {
+          cart.push(item);
+        }
+
+        document.getElementById("quantityInput").value = 1;
+        updateCart();
+        showNotification(`${model.name} added to cart!`);
+      }
+
+      function removeFromCart(id) {
+        cart = cart.filter((item) => item.id !== id);
+        updateCart();
+        showNotification("Item removed from cart");
+      }
+
+      function updateCart() {
+        const cartContainer = document.getElementById("cartItems");
+
+        if (cart.length === 0) {
+          cartContainer.innerHTML =
+            '<p style="color: #999; text-align: center;">Cart is empty</p>';
+          updateTotals();
+          return;
+        }
+
+        cartContainer.innerHTML = cart
+          .map(
+            (item) => `
+                <div class="cart-item">
+                    <div class="cart-item-details">
+                        <div class="cart-item-name">${item.brand} - ${
+              item.name
+            }</div>
+                        <div class="cart-item-price">$${(
+                          item.price * item.quantity
+                        ).toFixed(2)}</div>
+                        <div class="cart-item-qty">Qty: ${item.quantity}</div>
+                    </div>
+                    <button class="remove-btn" onclick="removeFromCart('${
+                      item.id
+                    }')">Remove</button>
+                </div>
+            `
+          )
+          .join("");
+
+        updateTotals();
+      }
+
+      function setDiscountType(type) {
+        discountType = type;
+        document
+          .querySelectorAll(".discount-type-buttons button")
+          .forEach((btn) => {
+            btn.classList.remove("active");
+          });
+        event.target.classList.add("active");
+      }
+
+      function applyDiscount() {
+        const discountInput = document.getElementById("discountInput").value;
+        if (!discountInput) {
+          showNotification("Please enter a discount amount");
+          return;
+        }
+        discountAmount = parseFloat(discountInput);
+        document.getElementById("discountInput").value = "";
+        updateTotals();
+        showNotification("Discount applied!");
+      }
+
+      function updateTotals() {
+        const subtotal = cart.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0
+        );
+        const discount =
+          discountType === "percentage"
+            ? (subtotal * discountAmount) / 100
+            : discountAmount;
+        const finalTotal = Math.max(0, subtotal - discount);
+
+        document.getElementById("subtotal").textContent = `$${subtotal.toFixed(
+          2
+        )}`;
+        document.getElementById(
+          "discountDisplay"
+        ).textContent = `$${discount.toFixed(2)}`;
+        document.getElementById(
+          "finalTotal"
+        ).textContent = `$${finalTotal.toFixed(2)}`;
+      }
+
+      function confirmPurchase() {
+        if (cart.length === 0) {
+          showNotification("Cart is empty");
+          return;
+        }
+
+        const subtotal = cart.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0
+        );
+        const discount =
+          discountType === "percentage"
+            ? (subtotal * discountAmount) / 100
+            : discountAmount;
+        const finalTotal = Math.max(0, subtotal - discount);
+
+        alert(
+          `✓ Purchase Confirmed!\n\n` +
+            `Items: ${cart.length}\n` +
+            `Subtotal: $${subtotal.toFixed(2)}\n` +
+            `Discount: $${discount.toFixed(2)}\n` +
+            `Final Total: $${finalTotal.toFixed(2)}\n\n` +
+            `Thank you for your purchase!`
+        );
+
+        cart = [];
+        discountAmount = 0;
+        document.getElementById("discountInput").value = "";
+        updateCart();
+        document.getElementById("brandSelect").value = "";
+        document.getElementById("modelSelect").innerHTML =
+          '<option value="">-- Choose a Model --</option>';
+        document.getElementById("imageGallery").innerHTML =
+          '<div class="no-images">Select a brand to see products</div>';
+      }
+
+      function showNotification(message) {
+        const notification = document.createElement("div");
+        notification.className = "notification";
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+          notification.style.animation = "slideIn 0.3s ease-out reverse";
+          setTimeout(() => notification.remove(), 300);
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>

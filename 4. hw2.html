@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Developer Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', cursive, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border: 3px solid black;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 3px solid black;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .logo-square {
+            width: 30px;
+            height: 30px;
+            background-color: black;
+            border-radius: 4px;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            font-size: 16px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: black;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 40px;
+            border-bottom: 3px solid black;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: normal;
+            margin-bottom: 10px;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        .hero p {
+            font-size: 16px;
+            color: #999;
+        }
+
+        /* Main Content */
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            border-bottom: 3px solid black;
+        }
+
+        .column {
+            padding: 30px;
+            border-right: 3px solid black;
+        }
+
+        .column:last-child {
+            border-right: none;
+        }
+
+        .column h2 {
+            font-size: 20px;
+            font-weight: normal;
+            margin-bottom: 15px;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        .project-item {
+            padding: 15px 0;
+            border-bottom: 2px solid black;
+            font-size: 15px;
+        }
+
+        .project-item:last-child {
+            border-bottom: none;
+        }
+
+        .project-item strong {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .section-text {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .link {
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        .course-list {
+            font-size: 14px;
+            line-height: 1.8;
+            list-style: none;
+        }
+
+        .course-list li {
+            margin-bottom: 4px;
+        }
+
+        /* Reviews Section */
+        .reviews {
+            padding: 40px;
+            border-bottom: 3px solid black;
+        }
+
+        .reviews h2 {
+            font-size: 20px;
+            font-weight: normal;
+            margin-bottom: 30px;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .review-card {
+            border: 3px solid black;
+            border-radius: 20px;
+            padding: 25px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .review-text {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .review-author {
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .review-title {
+            font-size: 12px;
+            color: #999;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            font-size: 16px;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .column {
+                border-right: none;
+                border-bottom: 3px solid black;
+            }
+
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <div class="logo-square"></div>
+                <span>your name</span>
+            </div>
+            <nav>
+                <a href="#home">Home</a>
+                <span>/</span>
+                <a href="#projects">Projects</a>
+                <span>/</span>
+                <a href="#articles">Articles</a>
+                <span>/</span>
+                <a href="#contact">Contact</a>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Frontend Developer</h1>
+            <p>html only with proper layout, no styling</p>
+        </section>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Projects Column -->
+            <div class="column">
+                <h2>Projects</h2>
+                <div class="project-item">
+                    <strong>HTML Only Portfolio</strong>
+                </div>
+                <div class="project-item">
+                    <strong>Calculator</strong>
+                </div>
+                <div class="project-item">
+                    <strong>Quiz App</strong>
+                </div>
+                <div class="project-item">
+                    <strong>Countdown Timer</strong>
+                </div>
+                <div class="project-item">
+                    <strong>Product Upcoming Page</strong>
+                </div>
+            </div>
+
+            <!-- Work Experience Column -->
+            <div class="column">
+                <h2>Work Experience</h2>
+                <div class="section-title">roadmap.sh</div>
+                <div class="section-text">Solved all the frontend projects</div>
+                <a href="#" class="link">Visit my Profile</a>
+
+                <div class="section-title" style="margin-top: 30px;">OpenSource Work</div>
+                <div class="section-text">Contributed to 50 opensource projects. Made my own projects with 200 GitHub Stars.</div>
+                <a href="#" class="link">Visit my GitHub Profile</a>
+            </div>
+
+            <!-- Education Column -->
+            <div class="column">
+                <h2>Education</h2>
+                <div class="section-text">
+                    Graduated with 3.76 out of 4 CGPA. Won Acme Hackathon. Organized 30 sessions.
+                </div>
+
+                <div class="section-title">Courses I took:</div>
+                <ul class="course-list">
+                    <li>- Object Oriented Programming</li>
+                    <li>- Data Structures and Algorithms</li>
+                    <li>- Web Engineering</li>
+                    <li>- Artificial Intelligence</li>
+                    <li>- Human Computer Interaction</li>
+                    <li>- Computer Graphics</li>
+                    <li>- Database Management Systems</li>
+                    <li>- Distributed Database Systems</li>
+                    <li>- Discreet Mathematics</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <section class="reviews">
+            <h2>Reviews from my Teachers</h2>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-text">John doe was a brilliant student; always stood out with his assignments.</div>
+                    <div>
+                        <div class="review-author">Jane Doe</div>
+                        <div class="review-title">Assistant Professor</div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-text">John doe was a brilliant student; always stood out with his assignments.</div>
+                    <div>
+                        <div class="review-author">Jane Doe</div>
+                        <div class="review-title">Assistant Professor</div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="review-text">John doe was a brilliant student; always stood out with his assignments.</div>
+                    <div>
+                        <div class="review-author">Jane Doe</div>
+                        <div class="review-title">Assistant Professor</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            © all rights reserved 2025
+        </footer>
+    </div>
+</body>
+</html>

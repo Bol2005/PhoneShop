@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moto PassApp & Taxi Booking</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <div class="logo">
+          <h1>Moto PassApp</h1>
+          <p>Fast & Reliable Booking</p>
+        </div>
+        <nav class="nav-links">
+          <a href="#booking">Book Now</a>
+          <a href="#features">Features</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-content">
+        <h2>Your Ride, Your Way</h2>
+        <p>
+          Choose between quick motorcycle rides or comfortable taxi services
+        </p>
+      </div>
+    </section>
+
+    <section id="booking" class="booking-section">
+      <div class="container">
+        <h2>Book Your Ride</h2>
+        <div class="booking-container">
+          <div class="service-selector">
+            <label class="service-option">
+              <input type="radio" name="service" value="moto" checked />
+              <span class="service-box moto-active">
+                <strong>Moto PassApp</strong>
+                <small>Fast & Quick</small>
+              </span>
+            </label>
+            <label class="service-option">
+              <input type="radio" name="service" value="taxi" />
+              <span class="service-box">
+                <strong>Taxi</strong>
+                <small>Comfortable & Safe</small>
+              </span>
+            </label>
+          </div>
+
+          <form id="bookingForm" class="booking-form">
+            <div class="form-group">
+              <label for="fullName">Full Name *</label>
+              <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                placeholder="Enter your full name"
+                required
+              />
+              <span class="error-message" id="nameError"></span>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="pickup">Pickup Location *</label>
+                <input
+                  type="text"
+                  id="pickup"
+                  name="pickup"
+                  placeholder="e.g., Downtown Mall"
+                  required
+                />
+                <span class="error-message" id="pickupError"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="destination">Destination *</label>
+                <input
+                  type="text"
+                  id="destination"
+                  name="destination"
+                  placeholder="e.g., Airport"
+                  required
+                />
+                <span class="error-message" id="destinationError"></span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="distance">Estimated Distance (km) *</label>
+                <input
+                  type="number"
+                  id="distance"
+                  name="distance"
+                  placeholder="e.g., 5.5"
+                  min="0.1"
+                  step="0.1"
+                  required
+                />
+                <span class="error-message" id="distanceError"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  placeholder="e.g., +1 (555) 000-0000"
+                  required
+                />
+                <span class="error-message" id="phoneError"></span>
+              </div>
+            </div>
+
+            <div class="price-display">
+              <span>Estimated Price:</span>
+              <strong id="priceAmount">$0.00</strong>
+            </div>
+
+            <button type="submit" class="btn-book">Confirm Booking</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="features-section">
+      <div class="container">
+        <h2>Why Choose Us?</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Lightning Fast</h3>
+            <p>Get booked within seconds with our optimized platform</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🛡️</div>
+            <h3>Safe & Secure</h3>
+            <p>Verified drivers and real-time tracking for your safety</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">💰</div>
+            <h3>Transparent Pricing</h3>
+            <p>No hidden charges, know your price before booking</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📱</div>
+            <h3>Easy to Use</h3>
+            <p>Simple booking process on mobile and desktop</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="confirmationModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Booking Confirmed!</h2>
+        <div class="confirmation-details">
+          <p><strong>Service:</strong> <span id="confirmService"></span></p>
+          <p><strong>Name:</strong> <span id="confirmName"></span></p>
+          <p><strong>Pickup:</strong> <span id="confirmPickup"></span></p>
+          <p>
+            <strong>Destination:</strong> <span id="confirmDestination"></span>
+          </p>
+          <p>
+            <strong>Distance:</strong> <span id="confirmDistance"></span> km
+          </p>
+          <p><strong>Phone:</strong> <span id="confirmPhone"></span></p>
+          <p class="price">
+            <strong>Total Price:</strong> <span id="confirmPrice"></span>
+          </p>
+        </div>
+        <p class="confirmation-message">
+          Your driver will arrive shortly. Check your SMS for updates!
+        </p>
+        <button class="btn-close-modal">Close</button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
