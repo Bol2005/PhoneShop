@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GenZ Phone</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="script.js" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="main-content">
+            <div class="header">
+                <h1>Wellcome To GenZ Phone</h1>
+                <p>Select and purchase your favorite iPhone model</p>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="model-select">iPhone Model</label>
+                    <select id="model-select">
+                        <option value="">Choose Model</option>
+                        <option value="X">iPhone X</option>
+                        <option value="XS">iPhone XS</option>
+                        <option value="XR">iPhone XR</option>
+                        <option value="11">iPhone 11</option>
+                        <option value="12">iPhone 12</option>
+                        <option value="13">iPhone 13</option>
+                        <option value="14">iPhone 14</option>
+                        <option value="15">iPhone 15</option>
+                        <option value="16">iPhone 16</option>
+                        <option value="17">iPhone 17</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="series-select">Series</label>
+                    <select id="series-select" disabled>
+                        <option value="">Choose Series</option>
+                    </select>
+                </div>
+
+                <!-- Added color selection group -->
+                <div class="filter-group">
+                    <label>Color</label>
+                    <div class="color-selection" id="color-selection"></div>
+                    <div class="selected-color" id="selected-color">Select a color</div>
+                </div>
+            </div>
+
+            <div class="products-grid" id="products-grid">
+                <p class="empty-cart">Select a model and series to see products</p>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="cart-section">
+                <h2 class="section-title">Shopping Cart</h2>
+                <div class="cart-items-scroll" id="cart-items">
+                    <p class="empty-cart">Your cart is empty</p>
+                </div>
+                <div class="cart-total">
+                    <div class="total-row">
+                        <span class="total-label">Subtotal:</span>
+                        <span class="total-value">$<span id="subtotal">0.00</span></span>
+                    </div>
+                    <div class="final-total">
+                        <span>Total:</span>
+                        <span class="total-value">$<span id="total">0.00</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="discount-section">
+                <h2 class="section-title">Apply Discount</h2>
+                <div class="discount-input-group">
+                    <input type="number" id="discount-amount" class="discount-input" placeholder="Enter amount"
+                        min="0" />
+                    <select id="discount-type" class="discount-type-select">
+                        <option value="percentage">%</option>
+                        <option value="amount">$</option>
+                    </select>
+                </div>
+                <button class="apply-discount-btn" onclick="applyDiscount()">
+                    Apply Discount
+                </button>
+                <div id="discount-info" style="font-size: 12px; color: #666; margin-bottom: 12px"></div>
+                <button class="checkout-btn" id="checkout-btn" onclick="checkout()" disabled>
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmation-modal">
+        <div class="modal-content">
+            <h2 class="modal-header">Order Summary</h2>
+            <div class="modal-summary" id="modal-summary"></div>
+            <hr class="modal-divider" />
+            <div class="modal-total">
+                <span>Subtotal:</span>
+                <span>$<span id="modal-subtotal">0.00</span></span>
+            </div>
+            <div class="modal-total" id="discount-row" style="display: none">
+                <span>Discount:</span>
+                <span>-$<span id="modal-discount">0.00</span></span>
+            </div>
+            <div class="modal-final">
+                <span>Final Total:</span>
+                <span>$<span id="modal-final-total">0.00</span></span>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="cancelCheckout()">
+                    Cancel
+                </button>
+                <button class="modal-btn confirm" onclick="confirmPurchase()">
+                    Confirm Purchase
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    <div class="success-message" id="success-message">
+        <div class="success-icon">✓</div>
+        <div class="success-text">Thanks for your purchase!</div>
+        <div class="success-subtext">Your order has been confirmed</div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
